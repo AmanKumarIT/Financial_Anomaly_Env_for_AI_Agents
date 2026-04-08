@@ -339,15 +339,16 @@ def run_task(task_id: str) -> None:
         else:
             # Fallback: normalise from rewards
             max_possible = max_steps * 1.0
-            score = min(max(sum(rewards) / max_possible, 0.0), 1.0) if max_possible > 0 else 0.0
+            score = min(max(sum(rewards) / max_possible, 0.001), 0.999) if max_possible > 0 else 0.001
 
-        score   = min(max(score, 0.0), 1.0)  # clamp to [0, 1]
+        score   = min(max(score, 0.001), 0.999)  # clamp to (0, 1) exclusive — validator rejects 0.0 and 1.0
         success = score >= SUCCESS_SCORE_THRESHOLD
 
     except Exception as e:
         print(f"[DEBUG] Unhandled exception in run_task({task_id}): {e}", flush=True)
 
     finally:
+        score = min(max(score, 0.001), 0.999)
         log_end(success=success, steps=step_count, score=score, rewards=rewards)
 
 
