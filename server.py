@@ -74,7 +74,7 @@ def health():
 # ---------------------------------------------------------------------------
 
 @app.post("/reset")
-def reset(req: ResetRequest) -> Dict:
+def reset(req: ResetRequest = ResetRequest()) -> Dict:
     """Create or reset an environment instance and return the initial observation."""
     if req.task_id not in ("easy", "medium", "hard"):
         raise HTTPException(status_code=400, detail=f"Invalid task_id: {req.task_id}")
