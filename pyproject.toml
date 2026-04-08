@@ -7,8 +7,9 @@ name = "financial-anomaly-env"
 version = "1.0.0"
 description = "OpenEnv Financial Anomaly Detection Environment"
 authors = [
-    {name = "Aman"}
+    { name = "Aman" }
 ]
+
 dependencies = [
     "fastapi",
     "uvicorn",
@@ -17,8 +18,12 @@ dependencies = [
     "openai",
     "python-dotenv",
     "tensorflow",
-    "numpy"
+    "numpy",
+    "openenv-core>=0.2.0"
 ]
+
+[project.scripts]
+start = "server:app"
 
 [tool.setuptools.packages.find]
 where = ["."]
