@@ -1,0 +1,78 @@
+name: financial-anomaly-detection
+version: "1.0.0"
+description: >
+  Financial Statement Anomaly Detection environment. The agent receives
+  quarterly financial statements (balance sheet, income statement, cash flow)
+  and must identify injected anomalies ranging from arithmetic errors to
+  coordinated fraud schemes (channel stuffing, cookie jar reserves,
+  round-tripping). Simulates real-world forensic accounting and audit tasks.
+
+tags:
+  - openenv
+  - finance
+  - auditing
+  - anomaly-detection
+
+author: OpenEnv Hackathon Submission
+
+environment:
+  entry_point: src.environment:FinancialAnomalyEnv
+  api_server: server:app
+
+observation_space:
+  type: structured
+  model: src.models:Observation
+  description: >
+    Company metadata, quarterly financial data (balance sheet, income statement,
+    cash flow), footnotes, prior flags, and optional sub-ledger detail responses.
+
+action_space:
+  type: structured
+  model: src.models:Action
+  actions:
+    - flag_anomaly: Flag a suspected anomaly with line_item, quarter, severity, type, explanation
+    - request_detail: Request sub-ledger breakdown of a specific line item (costs -0.1 reward)
+    - submit_report: Finalize the audit and trigger grading
+
+reward:
+  type: continuous
+  range: [-0.5, 1.2]
+  description: >
+    Per-step rewards: +1.0 correct flag, +0.5 partial match, -0.3 false positive,
+    -0.1 per detail request. Dependency ordering bonus (1.2x). Max steps penalty (-0.5).
+
+tasks:
+  - id: easy
+    description: >
+      Detect arithmetic errors, duplicate entries, and obvious misstatements
+      in 4 quarters of financial data. 3-5 surface-level anomalies.
+    difficulty: easy
+    expected_score_range: [0.05, 0.95]
+
+  - id: medium
+    description: >
+      Detect ratio anomalies, trend deviations, and cross-statement
+      inconsistencies across 6 quarters. 4-7 anomalies including receivables
+      divergence, inventory turnover spikes, and cash flow mismatches.
+    difficulty: medium
+    expected_score_range: [0.02, 0.70]
+
+  - id: hard
+    description: >
+      Detect coordinated manipulation patterns including channel stuffing,
+      cookie jar reserves, round-tripping, early revenue recognition, and
+      Benford's Law violations across 8 quarters. 5-10 anomalies with
+      causal dependencies.
+    difficulty: hard
+    expected_score_range: [0.01, 0.40]
+
+baseline:
+  script: baseline/inference.py
+  model: gpt-4o
+  credentials:
+    - OPENAI_API_KEY
+
+deployment:
+  platform: huggingface-spaces
+  sdk: docker
+  port: 7860

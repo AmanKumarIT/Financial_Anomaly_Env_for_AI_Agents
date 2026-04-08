@@ -1,0 +1,22 @@
+{
+  "task_id": "hard",
+  "difficulty": "hard",
+  "seed": 256,
+  "num_quarters": 8,
+  "max_steps": 25,
+  "description": "Detect coordinated manipulation patterns including channel stuffing, cookie jar reserves, round-tripping, and Benford's Law violations across 8 quarters.",
+  "expected_anomalies": "5-10 anomalies including coordinated multi-quarter fraud patterns with causal dependencies",
+  "expected_score_range": {
+    "frontier_model": [0.25, 0.40],
+    "mid_model": [0.10, 0.20],
+    "random_agent": [0.01, 0.05]
+  },
+  "footnotes": [
+    "Revenue recognition follows ASC 606 standards.",
+    "Company completed a major product launch in Q4 2022.",
+    "Management revised Q2 2023 estimates due to market conditions.",
+    "All amounts in USD. Fiscal year ends December 31.",
+    "Auditor noted a material weakness in internal controls over financial reporting.",
+    "Related-party transactions disclosed in Note 14 (not shown)."
+  ]
+}

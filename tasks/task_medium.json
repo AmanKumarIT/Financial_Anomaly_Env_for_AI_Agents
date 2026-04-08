@@ -1,0 +1,20 @@
+{
+  "task_id": "medium",
+  "difficulty": "medium",
+  "seed": 137,
+  "num_quarters": 6,
+  "max_steps": 20,
+  "description": "Detect ratio anomalies, trend deviations, and cross-statement inconsistencies across 6 quarters.",
+  "expected_anomalies": "4-7 anomalies including receivables divergence, inventory turnover spikes, cash flow mismatches",
+  "expected_score_range": {
+    "frontier_model": [0.55, 0.70],
+    "mid_model": [0.30, 0.45],
+    "random_agent": [0.02, 0.10]
+  },
+  "footnotes": [
+    "Revenue recognition follows ASC 606 standards.",
+    "Company acquired a small subsidiary in Q3 2022 (immaterial to financials).",
+    "All amounts in USD. Fiscal year ends December 31.",
+    "No changes to accounting policies during the reported period."
+  ]
+}
