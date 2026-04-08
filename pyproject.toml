@@ -23,7 +23,7 @@ dependencies = [
 ]
 
 [project.scripts]
-start = "server:app"
+server = "server:app"
 
 [tool.setuptools.packages.find]
 where = ["."]
